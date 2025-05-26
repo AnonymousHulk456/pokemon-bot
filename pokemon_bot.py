@@ -12,6 +12,7 @@ from telegram.ext import PicklePersistence
 
 # ENV
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+bot = Bot(TOKEN)
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # e.g. https://your-app.onrender.com
 
 # SQLite setup (same as before)
@@ -121,16 +122,9 @@ def add_pokemon_xp(pokemon_id, xp_gained):
     level_up_pokemon(pokemon_id)
 
 
-# Flask app
-flask_app = Flask(__name__)
-
 # Telegram Application (new version)
 application = ApplicationBuilder().token(BOT_TOKEN).build()
 
-# --- All your async bot handlers go here (unchanged): ---
-# start, starter_choice, explore, show_team, battle, run, catch, leaderboard, cancel
-
-# ... (copy all async functions from your existing script here)
 # Bot handlers
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -305,9 +299,17 @@ application.add_handler(CommandHandler("leaderboard", leaderboard))
 application.add_handler(CommandHandler("cancel", cancel))
 
 # --- Webhook route ---
-@flask_app.post(f"/{BOT_TOKEN}")
+# Flask setup
+app = Flask(__name__)
+
+@app.before_first_request
+def initialize_bot():
+    # Make sure the bot is initialized for webhook handling
+    asyncio.get_event_loop().run_until_complete(application.initialize())
+
+@app.route(f"/{TOKEN}", methods=["POST"])
 async def telegram_webhook():
-    update = Update.de_json(request.get_json(force=True), application.bot)
+    update = Update.de_json(request.get_json(force=True), bot)
     await application.process_update(update)
     return "ok"
 
