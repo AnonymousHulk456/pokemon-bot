@@ -2,7 +2,7 @@ import random
 import sqlite3
 import os
 from flask import Flask, request
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, Bot, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application, ApplicationBuilder, ContextTypes,
     CommandHandler, CallbackQueryHandler, ConversationHandler
