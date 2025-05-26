@@ -302,13 +302,13 @@ application.add_handler(CommandHandler("cancel", cancel))
 # Flask setup
 app = Flask(__name__)
 
-@app.before_first_request
-def initialize_bot():
-    # Make sure the bot is initialized for webhook handling
-    asyncio.get_event_loop().run_until_complete(application.initialize())
-
 @app.route(f"/{TOKEN}", methods=["POST"])
 async def telegram_webhook():
+    global initialized
+    if not initialized:
+        await application.initialize()
+        initialized = True
+
     update = Update.de_json(request.get_json(force=True), bot)
     await application.process_update(update)
     return "ok"
