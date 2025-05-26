@@ -284,8 +284,7 @@ if __name__ == '__main__':
         await application.run_webhook(
             listen="0.0.0.0",
             port=int(os.environ.get("PORT", 10000)),
-            webhook_path=f"/{BOT_TOKEN}",
-            url=f"{WEBHOOK_URL}/{BOT_TOKEN}"
+            webhook_url=f"{WEBHOOK_URL}/{BOT_TOKEN}"
         )
 
     asyncio.run(main())
