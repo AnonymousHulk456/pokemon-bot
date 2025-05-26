@@ -302,7 +302,7 @@ application.add_handler(CommandHandler("cancel", cancel))
 # Flask setup
 app = Flask(__name__)
 
-@app.route(f"/{TOKEN}", methods=["POST"])
+@app.route(f"/{BOT_TOKEN}", methods=["POST"])
 async def telegram_webhook():
     global initialized
     if not initialized:
