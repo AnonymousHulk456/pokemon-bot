@@ -319,6 +319,6 @@ if __name__ == '__main__':
     async def run():
         await application.bot.set_webhook(f"{WEBHOOK_URL}/{BOT_TOKEN}")
         print("Webhook set.")
-        flask_app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+        app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
 
     asyncio.run(run())
