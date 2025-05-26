@@ -12,7 +12,7 @@ from telegram.ext import PicklePersistence
 
 # ENV
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-bot = Bot(TOKEN)
+bot = Bot(BOT_TOKEN)
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # e.g. https://your-app.onrender.com
 
 # SQLite setup (same as before)
