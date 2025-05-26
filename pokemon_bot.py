@@ -279,8 +279,8 @@ if __name__ == '__main__':
 
     async def main():
         await application.initialize()
+        await application.start()
         await application.bot.set_webhook(f"{WEBHOOK_URL}/{BOT_TOKEN}")
-
         await application.run_webhook(
             listen="0.0.0.0",
             port=int(os.environ.get("PORT", 10000)),
